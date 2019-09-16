@@ -114,50 +114,50 @@ class Model_PolicyValue(Model):
     @classmethod
     def get_option_spec(cls):
         spec = PyOptionSpec()
-        spec.addBoolOption(
+        spec.addBoolOption(                                 # True
             'bn',
             'toggles batch norm',
             True)
-        spec.addBoolOption(
+        spec.addBoolOption(                                 # False
             'leaky_relu',
             'toggles leaky ReLU',
             False)
-        spec.addFloatOption(
+        spec.addFloatOption(                                # 0.1
             'bn_momentum',
             'batch norm momentum (pytorch style)',
             0.1)
-        spec.addIntOption(
+        spec.addIntOption(                                  # 20
             'num_block',
             'number of blocks',
             20)
-        spec.addIntOption(
+        spec.addIntOption(                                  # 256
             'dim',
             'model dimension',
             128)
-        spec.addBoolOption(
+        spec.addBoolOption(                                 # False
             'use_data_parallel',
             'TODO: fill this in',
             False)
-        spec.addBoolOption(
+        spec.addBoolOption(                                 # False
             'use_data_parallel_distributed',
             'TODO: fill this in',
             False)
-        spec.addIntOption(
+        spec.addIntOption(                                  # -1
             'dist_rank',
             'TODO: fill this in',
             -1)
-        spec.addIntOption(
+        spec.addIntOption(                                  # -1
             'dist_world_size',
             'TODO: fill this in',
             -1)
-        spec.addStrOption(
+        spec.addStrOption(                                  # ''
             'dist_url',
             'TODO: fill this in',
             '')
-        spec.addIntOption(
+        spec.addIntOption(                                  # 0
             'gpu',
             'which gpu to use',
-            -1)
+            -1)                                             # also: bn_eps = 1e-05
 
         spec.merge(GoResNet.get_option_spec())
 
@@ -166,10 +166,10 @@ class Model_PolicyValue(Model):
     @auto_import_options
     def __init__(self, option_map, params):
         super().__init__(option_map, params)
-
-        self.board_size = params["board_size"]
-        self.num_future_actions = params["num_future_actions"]
-        self.num_planes = params["num_planes"]
+        
+        self.board_size = params["board_size"]                                  # 19
+        self.num_future_actions = params["num_future_actions"]                  # 1
+        self.num_planes = params["num_planes"]                                  # 18
         # print("#future_action: " + str(self.num_future_actions))
         # print("#num_planes: " + str(self.num_planes))
 
@@ -177,10 +177,10 @@ class Model_PolicyValue(Model):
         # https://www.nature.com/nature/journal/v550/n7676/full/nature24270.html
 
         # Simple method. multiple conv layers.
-        self.relu = nn.LeakyReLU(0.1) if self.options.leaky_relu else nn.ReLU()
+        self.relu = nn.LeakyReLU(0.1) if self.options.leaky_relu else nn.ReLU() # ReLU
         last_planes = self.num_planes
 
-        self.init_conv = self._conv_layer(last_planes)
+        self.init_conv = self._conv_layer(last_planes)                          # last_planes = 18
 
         self.pi_final_conv = self._conv_layer(self.options.dim, 2, 1)
         self.value_final_conv = self._conv_layer(self.options.dim, 1, 1)
@@ -198,8 +198,8 @@ class Model_PolicyValue(Model):
         self.resnet = GoResNet(option_map, params)
 
         if torch.cuda.is_available() and self.options.gpu is not None:
-            self.init_conv.cuda(self.options.gpu)
-            self.resnet.cuda(self.options.gpu)
+            self.init_conv.cuda() #self.options.gpu)
+            self.resnet.cuda() #self.options.gpu)
 
         if self.options.use_data_parallel:
             if self.options.gpu is not None:
@@ -253,16 +253,16 @@ class Model_PolicyValue(Model):
             kernel=3,
             relu=True):
         if input_channel is None:
-            input_channel = self.options.dim
+            input_channel = self.options.dim                                    # 18
         if output_channel is None:
-            output_channel = self.options.dim
+            output_channel = self.options.dim                                   # 256
 
         layers = []
         layers.append(nn.Conv2d(
-            input_channel,
-            output_channel,
-            kernel,
-            padding=(kernel // 2)
+            input_channel,                                                      # 18
+            output_channel,                                                     # 256
+            kernel,                                                             # 3
+            padding=(kernel // 2)                                               # 1
         ))
         if self.options.bn:
             layers.append(
