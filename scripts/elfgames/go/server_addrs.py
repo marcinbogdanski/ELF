@@ -1,3 +1,3 @@
 addrs = {
-    "myserver": "[XXX.XXX.XXX.XXX]",
+    "myserver": "[127.0.0.1]",
 }

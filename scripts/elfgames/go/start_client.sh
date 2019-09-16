@@ -11,13 +11,13 @@ echo $PYTHONPATH $SLURMD_NODENAME $CUDA_VISIBLE_DEVICES
 root=./myserver game=elfgames.go.game model=df_pred model_file=elfgames.go.df_model3 \
 stdbuf -o 0 -e 0 python ./selfplay.py \
     --T 1    --batchsize 128 \
-    --dim0 256    --dim1 256    --gpu 0 \
+    --dim0 16     --dim1 16     --gpu 0 \
     --keys_in_reply V rv    --mcts_alpha 0.03 \
     --mcts_epsilon 0.25    --mcts_persistent_tree \
     --mcts_puct 0.85    --mcts_rollout_per_thread 200 \
     --mcts_threads 8    --mcts_use_prior \
     --mcts_virtual_loss 5   --mode selfplay \
-    --num_block0 20    --num_block1 20 \
+    --num_block0 2     --num_block1 2 \
     --num_games 32    --ply_pass_enabled 160 \
     --policy_distri_cutoff 30    --policy_distri_training_for_all \
     --port 1234 \

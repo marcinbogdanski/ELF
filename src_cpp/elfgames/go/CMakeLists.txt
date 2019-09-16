@@ -28,7 +28,7 @@ set(ELFGAMES_GO_INFERENCE_SOURCES
 )
 
 # Main Go library
-
+set(BOARD9x9 TRUE)
 add_library(elfgames_go ${ELFGAMES_GO_SOURCES})
 if(${BOARD9x9})
     message("Use 9x9 board")

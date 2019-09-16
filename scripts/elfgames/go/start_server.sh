@@ -21,12 +21,12 @@ save=./myserver game=elfgames.go.game model=df_kl model_file=elfgames.go.df_mode
     --resign_thres 0.01    --gpu 0 \
     --server_id myserver     --eval_num_games 400 \
     --eval_winrate_thres 0.55     --port 1234 \
-    --q_min_size 200     --q_max_size 4000 \
+    --q_min_size 20      --q_max_size 400    --num_reader 4  \
     --save_first     \
-    --num_block 20     --dim 256 \
+    --num_block 2      --dim 16 \
     --weight_decay 0.0002    --opt_method sgd \
-    --bn_momentum=0 --num_cooldown=50 \
+    --bn_momentum=0 --num_cooldown=2 \
     --expected_num_client 496 \
     --selfplay_init_num 0 --selfplay_update_num 0 \
     --eval_num_games 0 --selfplay_async \
-    --lr 0.01    --momentum 0.9     1>> log.log 2>&1 &
+    --lr 0.01    --momentum 0.9
