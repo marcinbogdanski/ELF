@@ -283,7 +283,7 @@ class TreeSearchSingleThreadT {
       // PRINT_TS(" Action: " << action);
 
       // Add virtual loss if there is any.
-      if (options_.virtual_loss > 0) {
+      if (options_.virtual_loss > 0) {                                          // virtual_loss = 5
         node->addVirtualLoss(action, options_.virtual_loss);
       }
 

@@ -325,7 +325,7 @@ class NodeT : public NodeBaseT<State> {
     int total_visits;
 
     BestAction()
-        : action_with_max_score(ActionTrait<Action>::default_value()),
+        : action_with_max_score(ActionTrait<Action>::default_value()),          // returns just Action()
           max_score(std::numeric_limits<float>::lowest()),
           total_unsigned_q(0),
           total_visits(0) {}
