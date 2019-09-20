@@ -18,7 +18,7 @@
 namespace elf {
 namespace ai {
 namespace tree_search {
-
+# if 0
 template <typename Map>
 MCTSResultT<typename Map::key_type> MostVisited(const Map& vals) {
   using A = typename Map::key_type;
@@ -79,7 +79,7 @@ MCTSResultT<typename Map::key_type> UniformRandom(const Map& vals) {
   res.feed(it->second.num_visits, *it);
   return res;
 };
-
+#endif
 } // namespace tree_search
 } // namespace ai
 } // namespace elf
